@@ -31,6 +31,11 @@ function setLang(l, remember) {
     s.setAttribute("src", want);
     v.load();
   }
+  // Social-Media-Links: Vorlesetext in der gewaehlten Sprache
+  document.querySelectorAll("a[data-label-en]").forEach(function (a) {
+    if (!a.dataset.labelDe) a.dataset.labelDe = a.getAttribute("aria-label");
+    a.setAttribute("aria-label", l === "en" ? a.dataset.labelEn : a.dataset.labelDe);
+  });
   buildShots();
 }
 
