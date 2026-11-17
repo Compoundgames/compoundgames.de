@@ -15,10 +15,10 @@ function store(key, val) {
   try { if (val === undefined) return localStorage.getItem(key); localStorage.setItem(key, val); } catch (e) { return null; }
 }
 
-function setLang(l) {
+function setLang(l, remember) {
   lang = l;
   document.documentElement.lang = l;
-  store("lang", l);
+  if (remember) store("lang", l);  // nur wenn der Besucher selbst umschaltet
   document.querySelectorAll(".langswitch button").forEach(function (b) {
     b.classList.toggle("on", b.dataset.lang === l);
   });
@@ -75,7 +75,7 @@ document.addEventListener("keydown", function (e) {
 
 document.querySelectorAll(".steam-link").forEach(function (a) { a.href = STEAM_URL; });
 document.querySelectorAll(".langswitch button").forEach(function (b) {
-  b.addEventListener("click", function () { setLang(b.dataset.lang); });
+  b.addEventListener("click", function () { setLang(b.dataset.lang, true); });
 });
 document.getElementById("year").textContent = new Date().getFullYear();
 
