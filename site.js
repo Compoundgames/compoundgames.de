@@ -1,7 +1,8 @@
 // Chop Till Spring / Compound Games
 // Steam-Link: sobald die Store-Seite existiert, hier die echte Adresse eintragen,
 // z. B. "https://store.steampowered.com/app/1234560/Chop_Till_Spring/"
-var STEAM_URL = "https://store.steampowered.com/search/?term=Chop%20Till%20Spring";
+// Leer = die Wunschlisten-Knoepfe zeigen "bald verfuegbar" und sind nicht klickbar.
+var STEAM_URL = "";
 
 var SHOTS = ["02_hacken", "03_blitz", "05_hof", "06_glut", "09_waldbewohner", "10_bonuskarten", "11_axtwurf", "12_kaelteeinbruch"];
 var ALT = {
@@ -73,7 +74,18 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "ArrowRight") showShot(cur + 1);
 });
 
-document.querySelectorAll(".steam-link").forEach(function (a) { a.href = STEAM_URL; });
+document.querySelectorAll(".steam-link").forEach(function (a) {
+  if (STEAM_URL) {
+    a.href = STEAM_URL;
+    return;
+  }
+  // Noch keine Store-Seite: Knopf als "bald verfuegbar" zeigen, ohne Link
+  var span = document.createElement("span");
+  span.className = "btn disabled";
+  span.setAttribute("aria-disabled", "true");
+  span.innerHTML = '<span lang="de">Steam-Wunschliste – bald verfügbar</span><span lang="en">Steam wishlist – coming soon</span>';
+  a.replaceWith(span);
+});
 document.querySelectorAll(".langswitch button").forEach(function (b) {
   b.addEventListener("click", function () { setLang(b.dataset.lang, true); });
 });
